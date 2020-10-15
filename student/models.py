@@ -64,7 +64,6 @@ class StudentCourseEnrollment(models.Model):
     student = models.ForeignKey("student.Student", on_delete = models.CASCADE)
     date = models.DateField()
 
-
 class StudentAttendance(models.Model):
     student_course_enrollment = models.ForeignKey("student.StudentCourseEnrollment", on_delete = models.CASCADE)
     date = models.DateField()
