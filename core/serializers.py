@@ -42,3 +42,18 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ('key', 'user')
+
+
+class DegreeLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DegreeLevel
+        fields = "__all__"
+
+class DepartmentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Department
+        fields = "__all__"
+
+
+
+
