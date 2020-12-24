@@ -8,7 +8,6 @@ from rest_framework.authtoken.models import Token
 
 
 
-# Serializers define the API representation.
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User

@@ -8,7 +8,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     category = models.ForeignKey('spotlight.Category', on_delete = models.CASCADE)
-    student = models.ForeignKey('student.Student', on_delete = models.CASCADE )
+    user = models.ForeignKey('core.User', on_delete = models.CASCADE, related_name="spotlight_user_post" )
     description = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
 
@@ -28,21 +28,22 @@ Post_React_Choices = (
 )
 class PostReact(models.Model):
     post = models.ForeignKey('spotlight.Post', on_delete = models.CASCADE )
-    student = models.ForeignKey('student.Student', on_delete = models.CASCADE )
+    user = models.ForeignKey('core.User', on_delete = models.CASCADE, related_name = "spotlight_react_user")
     type = models.CharField(max_length = 10, choices = Post_React_Choices )
     datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = "Post Reacts"
-        unique_together = ['post', 'student']
+        unique_together = ['post', 'user']
 
 class PostComment(models.Model):
     post = models.ForeignKey('spotlight.Post', on_delete=models.CASCADE)
-    student = models.ForeignKey('student.Student', on_delete=models.CASCADE)
+    user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name = "spotlight_user_comment")
     comment = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
 
 class PostCommentReply(models.Model):
+    user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name = "spotlight_user_reply")
     comment = models.ForeignKey('spotlight.PostComment', on_delete = models.CASCADE)
     reply = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
