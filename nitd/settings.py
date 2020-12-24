@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'nested_admin',
 
     'core',
     'student',

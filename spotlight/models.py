@@ -3,12 +3,26 @@ from django.db import models
 class Category(models.Model):
     title = models.CharField(max_length = 256)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name_plural = "Category"
+
+class Tag(models.Model):
+    title = models.CharField(max_length = 256)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "Tags"
 
 class Post(models.Model):
     category = models.ForeignKey('spotlight.Category', on_delete = models.CASCADE)
     user = models.ForeignKey('core.User', on_delete = models.CASCADE, related_name="spotlight_user_post" )
+    tags = models.ManyToManyField('spotlight.tag')
+    title = models.CharField(max_length = 512)
     description = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
 

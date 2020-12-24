@@ -34,7 +34,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PostSerializer
 
     def get_queryset(self):
-        query_set = models.Category.objects.all()
+        query_set = models.Post.objects.all()
 
         search = self.request.query_params.get('search', None)
         if search:

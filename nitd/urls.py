@@ -11,7 +11,7 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('accounts/', include('allauth.urls')),
-
+    path('_nested_admin/', include('nested_admin.urls')),
 
     # path('core/', include('core.urls', namespace='core')),
     path('student/', include('student.urls', namespace='student')),

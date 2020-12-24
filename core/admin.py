@@ -2,6 +2,7 @@ from django.contrib import admin
 from core import models
 # Register your models here.
 
+admin.site.site_header = 'NIT Delhi'
 
 admin.site.register(models.User)
 admin.site.register(models.DegreeLevel)
