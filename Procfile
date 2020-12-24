@@ -1,2 +1,2 @@
 release: python manage.py migrate --noinput
-web: gunicorn homeplanify.wsgi
+web: gunicorn nitd.wsgi
