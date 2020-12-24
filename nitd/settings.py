@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'core',
     'student',
     'social',
+    'spotlight',
 ]
 
 MIDDLEWARE = [
