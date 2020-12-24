@@ -66,6 +66,7 @@ class PostReactViewSet(viewsets.ModelViewSet):
             permission_classes = [permissions.IsAdminUser]
         return [permission() for permission in permission_classes]
 
+
 class PostCommentViewSet(viewsets.ModelViewSet):
     queryset = models.PostComment.objects.all()
     serializer_class = serializers.PostCommentSerializer
