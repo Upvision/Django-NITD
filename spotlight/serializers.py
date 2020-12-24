@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
 
-from student.serializers import StudentSerializer
+
 from spotlight import models
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -11,7 +11,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class PostSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
     category = CategorySerializer()
     images = serializers.SerializerMethodField(read_only = True)
     files = serializers.SerializerMethodField(read_only = True)
@@ -38,7 +37,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_comments(self, obj):
         comments = models.PostComment.objects.filter(post = obj)
-        data = PostCommentSerializer(comments, many=True)
+        data = PostCommentSerializer(comments, many=True).data
         return data
 
 class PostImageSerializer(serializers.ModelSerializer):

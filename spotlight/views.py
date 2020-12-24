@@ -35,7 +35,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = models.Post.objects.all()
-
         search = self.request.query_params.get('search', None)
         if search:
             query_set = query_set.filter(description__icontains=search)
