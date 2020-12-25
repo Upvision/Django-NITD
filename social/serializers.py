@@ -5,116 +5,75 @@ from student.serializers import StudentSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
-    description = serializers.TextField()
-    datetime = serializers.DateTimeField()
+    # student = StudentSerializer()
+    # description = serializers.TextField()
+    images = serializers.SerializerMethodField(read_only=True)
+    files = serializers.SerializerMethodField(read_only=True)
+    reacts = serializers.SerializerMethodField(read_only=True)
+    comments = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = models.Post
         fields = "__all__"
 
-    def create(self, validated_data):
-        return models.Post.objects.create(**validated_data)
+    def get_images(self, obj):
+        images = models.PostImage.objects.filter(post=obj)
+        data = PostImageSerializer(images, many=True).data
+        return data
 
-    def update(self, instance, validated_data):
-        instance.student = validated_data.get('student', instance.student)
-        instance.description = validated_data.get('description', instance.description)
-        instance.datetime = validated_data.get('datetime', instance.datetime)
-        instance.save()
-        return instance
+    def get_files(self, obj):
+        files = models.PostFile.objects.filter(post=obj)
+        data = PostFileSerializer(files, many=True).data
+        return data
+
+    def get_reacts(self, obj):
+        reacts = models.PostReact.objects.filter(post=obj).count()
+        return reacts
+
+    def get_comments(self, obj):
+        comments = models.PostComment.objects.filter(post=obj)
+        data = PostCommentSerializer(comments, many=True).data
+        return data
 
 class PostImageSerializer(serializers.ModelSerializer):
-    post = PostSerializer()
-    image = serializers.ImageField()
+
     class Meta:
         model = models.PostImage
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostImage.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.post = validated_data.get('post', instance.post)
-        instance.image = validated_data.get('image', instance.image)
-        instance.save()
-        return instance
 
 class PostFileSerializer(serializers.ModelSerializer):
-    post = PostSerializer()
-    image = serializers.FileField()
-    video = serializers.BooleanField()
+
     class Meta:
         model = models.PostFile
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostFile.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.post = validated_data.get('post', instance.post)
-        instance.image = validated_data.get('image', instance.image)
-        instance.video = validated_data.get('video', instance.video)
-        instance.save()
-        return instance
 
 class PostReactSerializer(serializers.ModelSerializer):
-    post = PostSerializer()
-    student = StudentSerializer()
-    type  = models.CharField()
-    datetime = serializers.DateTimeField()
+
     class Meta:
         model = models.PostReact
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostReact.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.post = validated_data.get('post', instance.post)
-        instance.student = validated_data.get('student', instance.student)
-        instance.type = validated_data.get('type', instance.type)
-        instance.datetime = validated_data.get('datetime', instance.datetime)
-        instance.save()
-        return instance
 
 class PostCommentSerializer(serializers.ModelSerializer):
-    post = PostSerializer()
-    student = StudentSerializer()
-    comment  = models.TextField()
-    datetime = serializers.DateTimeField()
+    replies = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = models.PostComment
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostComment.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.post = validated_data.get('post', instance.post)
-        instance.student = validated_data.get('student', instance.student)
-        instance.comment = validated_data.get('comment', instance.comment)
-        instance.datetime = validated_data.get('datetime', instance.datetime)
-        instance.save()
-        return instance
+    def get_replies(self, obj):
+        replies = models.PostCommentReply.objects.filter(comment = obj)
+        data = PostCommentReplySerializer(replies, many=True).data
+        return data
 
 class PostCommentReplySerializer(serializers.ModelSerializer):
-    comment = PostCommentSerializer()
-    reply = models.TextField()
-    datetime = serializers.DateTimeField()
+
     class Meta:
         model = models.PostCommentReply
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostReact.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.comment = validated_data.get('comment', instance.comment)
-        instance.reply = validated_data.get('reply', instance.reply)
-        instance.datetime = validated_data.get('datetime', instance.datetime)
-        instance.save()
-        return instance
 
 class PostShareSerializer(serializers.ModelSerializer):
-    post = PostSerializer()
-    student = StudentSerializer()
-    datetime = serializers.DateTimeField()
+
     class Meta:
         model = models.PostShare
         fields = "__all__"
-    def create(self, validated_data):
-        return models.PostShare.objects.create(**validated_data)

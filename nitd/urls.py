@@ -16,5 +16,6 @@ urlpatterns = [
     # path('core/', include('core.urls', namespace='core')),
     path('student/', include('student.urls', namespace='student')),
     path('spotlight/', include('spotlight.urls', namespace='spotlight')),
+    path('social/', include('social.urls', namespace='social')),
 
 ]

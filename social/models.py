@@ -12,7 +12,7 @@ class PostImage(models.Model):
 
 class PostFile(models.Model):
     post = models.ForeignKey('social.Post', on_delete = models.CASCADE )
-    image = models.FileField()
+    file = models.FileField()
     video = models.BooleanField(default = False)
 
 
@@ -37,6 +37,7 @@ class PostComment(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
 
 class PostCommentReply(models.Model):
+    student = models.ForeignKey('student.Student', on_delete=models.CASCADE,related_name = "social_student_reply")
     comment = models.ForeignKey('social.PostComment', on_delete = models.CASCADE)
     reply = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
