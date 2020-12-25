@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.documentation import include_docs_urls
 import rest_framework
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('_nested_admin/', include('nested_admin.urls')),
 
     # path('core/', include('core.urls', namespace='core')),
+    path('docs/', include_docs_urls(title='NIT Delhi')),
     path('student/', include('student.urls', namespace='student')),
     path('spotlight/', include('spotlight.urls', namespace='spotlight')),
     path('social/', include('social.urls', namespace='social')),
