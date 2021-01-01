@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
 
-
+from core import serializers as UserSerializers
 from spotlight import models
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -11,6 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class PostSerializer(serializers.ModelSerializer):
+    user = UserSerializers.UserSerializer()
     category = CategorySerializer()
     images = serializers.SerializerMethodField(read_only = True)
     files = serializers.SerializerMethodField(read_only = True)
@@ -32,8 +33,9 @@ class PostSerializer(serializers.ModelSerializer):
         return data
 
     def get_reacts(self, obj):
-        reacts = models.PostReact.objects.filter(post = obj).count()
-        return reacts
+        reacts = models.PostReact.objects.filter(post = obj)
+        data = PostReactSerializer(reacts, many=True).data
+        return data
 
     def get_comments(self, obj):
         comments = models.PostComment.objects.filter(post = obj)
@@ -61,6 +63,7 @@ class PostReactSerializer(serializers.ModelSerializer):
 
 
 class PostCommentSerializer(serializers.ModelSerializer):
+    user = UserSerializers.UserSerializer()
     replies = serializers.SerializerMethodField(read_only = True)
 
     class Meta:
@@ -74,6 +77,7 @@ class PostCommentSerializer(serializers.ModelSerializer):
 
 
 class PostCommentReplySerializer(serializers.ModelSerializer):
+    user = UserSerializers.UserSerializer()
 
     class Meta:
         model = models.PostCommentReply

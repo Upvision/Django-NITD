@@ -54,6 +54,16 @@ class PostViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
+    def my_properties(self, request, pk=None):
+        serializer_context = {
+            'request': request,
+        }
+        queryset = self.get_queryset()
+        data = serializers.PostSerializer(queryset, many = True, context = serializer_context)
+        return Response(data)
+
+
 class PostReactViewSet(viewsets.ModelViewSet):
     queryset = models.PostReact.objects.all()
     serializer_class = serializers.PostReactSerializer

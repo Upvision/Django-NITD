@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     is_student = models.BooleanField(default = True)
-
+    profile_pic = models.ImageField(null=True)
 
 class DegreeLevel(models.Model):
     name = models.CharField(max_length = 200)
