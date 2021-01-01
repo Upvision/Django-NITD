@@ -18,7 +18,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(allow_blank=True, allow_null=True)
     last_name = serializers.CharField(allow_blank=True, allow_null=True)
     email = serializers.EmailField(allow_blank = True, allow_null=True)
-    profile_pic = ImageField(max_length=None, allow_empty_file=True, use_url=True)
+    profile_pic = serializers.ImageField(max_length=None, allow_empty_file=True, use_url=True)
 
     class Meta:
         model = models.User

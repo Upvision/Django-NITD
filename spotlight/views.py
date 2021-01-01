@@ -5,6 +5,7 @@ from django.db.models import Q
 
 
 from spotlight import models, serializers
+from rest_framework.decorators import action
 # Create your views here.
 
 
