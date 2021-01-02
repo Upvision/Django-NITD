@@ -22,11 +22,12 @@ class Tag(models.Model):
 class Post(models.Model):
     category = models.ForeignKey('spotlight.Category', on_delete = models.CASCADE)
     user = models.ForeignKey('core.User', on_delete = models.CASCADE, related_name="spotlight_user_post" )
-    tags = models.ManyToManyField('spotlight.tag')
+    tags = models.ManyToManyField('spotlight.Tag')
     title = models.CharField(max_length = 512)
     description = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
     featured = models.BooleanField(default= False)
+    image = models.ImageField(null=True)
 
 class PostImage(models.Model):
     post = models.ForeignKey('spotlight.Post', on_delete = models.CASCADE )

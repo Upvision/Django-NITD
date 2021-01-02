@@ -10,9 +10,18 @@ class CategorySerializer(serializers.ModelSerializer):
         model = models.Category
         fields = "__all__"
 
+class TagSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Tag
+        fields = "__all__"
+
+
+
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializers.UserSerializer()
     category = CategorySerializer()
+    all_tags = serializers.SerializerMethodField(read_only = True)
     images = serializers.SerializerMethodField(read_only = True)
     files = serializers.SerializerMethodField(read_only = True)
     reacts = serializers.SerializerMethodField(read_only = True)
@@ -40,6 +49,11 @@ class PostSerializer(serializers.ModelSerializer):
     def get_comments(self, obj):
         comments = models.PostComment.objects.filter(post = obj)
         data = PostCommentSerializer(comments, many=True).data
+        return data
+
+    def get_all_tags(self, obj):
+        tags = obj.tags.all()
+        data = TagSerializer(tags, many=True).data
         return data
 
 class PostImageSerializer(serializers.ModelSerializer):
